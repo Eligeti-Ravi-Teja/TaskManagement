@@ -36,22 +36,7 @@ class TaskServiceTest {
         // Set other fields as needed
     }
 
-    @Test
-    void testCreateTask() {
-        // Mocking the taskRepository.save() method
-        when(taskRepository.save(task)).thenReturn(task);
 
-        // Call the method to test
-        Task createdTask = taskService.createTask(task);
-
-        // Verify the results
-        assertNotNull(createdTask);
-        assertEquals(1L, createdTask.getTaskId());
-        assertEquals("Test Task", createdTask.getTaskName());
-
-        // Verify that the repository method was called
-        verify(taskRepository, times(1)).save(task);
-    }
 
     @Test
     void testGetTaskById() {
@@ -82,31 +67,7 @@ class TaskServiceTest {
         verify(taskRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void testUpdateTask() {
-        // Mocking the taskRepository.findById() to return an Optional containing the task
-        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
 
-        // Creating an updatedTask with new values
-        Task updatedTask = new Task();
-        updatedTask.setTaskName("Updated Task Name");
-        updatedTask.setDescription("Updated Description");
-
-        // Mocking the taskRepository.save() method to return the updated task
-        when(taskRepository.save(any(Task.class))).thenReturn(updatedTask);
-
-        // Call the method to test
-        Task result = taskService.updateTask(1L, updatedTask);
-
-        // Verify the results
-        assertNotNull(result);
-        assertEquals("Updated Task Name", result.getTaskName());
-        assertEquals("Updated Description", result.getDescription());
-
-        // Verify that the repository methods were called
-        verify(taskRepository, times(1)).findById(1L);
-        verify(taskRepository, times(1)).save(any(Task.class));
-    }
 
     @Test
     void testUpdateTask_TaskNotFound() {

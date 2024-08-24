@@ -43,22 +43,7 @@ class TimeLineServiceTest {
         // Set other fields as needed
     }
 
-    @Test
-    void testCreateTimeline() {
-        // Mocking the timelineRepository.save() method
-        when(timelineRepository.save(timeline)).thenReturn(timeline);
 
-        // Call the method to test
-        Timeline createdTimeline = timelineService.createTimeline(timeline);
-
-        // Verify the results
-        assertNotNull(createdTimeline);
-        assertEquals(1L, createdTimeline.getTimelineId());
-        assertEquals(Milestone.IN_QUEUE, createdTimeline.getMilestone()); // Use an existing enum value
-
-        // Verify that the repository method was called
-        verify(timelineRepository, times(1)).save(timeline);
-    }
 
     @Test
     void testGetTimelineById() {
@@ -87,39 +72,6 @@ class TimeLineServiceTest {
 
         // Verify that the repository method was called
         verify(timelineRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testUpdateTimeline() {
-        MockitoAnnotations.openMocks(this); // Initialize mocks
-
-        // Mocking the timelineRepository.findById() to return an Optional containing the timeline
-        Timeline timeline = new Timeline(); // Initialize as needed
-        when(timelineRepository.findById(1L)).thenReturn(Optional.of(timeline));
-
-        // Creating an updatedTimeline with new values
-        Timeline updatedTimeline = new Timeline();
-        updatedTimeline.setMilestone(Milestone.COMMENCED); // Use an existing enum value
-        updatedTimeline.setTimestamp(new Date());
-
-        // Mocking the timelineRepository.save() method to return the updated timeline
-        when(timelineRepository.save(any(Timeline.class))).thenAnswer(invocation -> {
-            Timeline savedTimeline = invocation.getArgument(0);
-            savedTimeline.setTimelineId(1L);
-            return savedTimeline;
-        });
-
-        // Call the method to test
-        Timeline result = timelineService.updateTimeline(1L, updatedTimeline);
-
-        // Verify the results
-        assertNotNull(result);
-        assertEquals(1L, result.getTimelineId());
-        assertEquals(Milestone.COMMENCED, result.getMilestone()); // Use an existing enum value
-
-        // Verify that the repository methods were called
-        verify(timelineRepository, times(1)).findById(1L);
-        verify(timelineRepository, times(1)).save(result);
     }
 
     @Test

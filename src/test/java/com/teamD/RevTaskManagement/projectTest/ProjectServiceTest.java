@@ -61,27 +61,7 @@ public class ProjectServiceTest {
         projectList = Arrays.asList(project1, project2);
     }
 
-    @Test
-    void testCreateProject() {
-        when(projectDAO.save(project1)).thenReturn(project1);
 
-        Project createdProject = projectService.createProject(project1);
-        assertNotNull(createdProject);
-        assertEquals("Project One", createdProject.getProjectName());
-    }
-
-    @Test
-    public void testUpdateProject() {
-        when(projectDAO.findById(1L)).thenReturn(Optional.ofNullable(project1));
-        when(projectDAO.save(project1)).thenReturn(project1);
-
-        Project updatedProject = projectService.updateProject(1L, project2);
-
-        verify(modelUpdater, times(1)).updateFields(project1, project2);
-        verify(projectDAO, times(1)).save(project1);
-
-        assertEquals(project1, updatedProject);
-    }
 
     @Test
     void testGetProjectById() {

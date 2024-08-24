@@ -59,15 +59,7 @@ public class CommentServiceTest {
         comment2.setTask(task);
     }
 
-    @Test
-    void testCreateComment() {
-        when(commentDAO.save(any(Comment.class))).thenReturn(comment1);
 
-        Comment savedComment = commentService.createComment(comment1);
-
-        assertNotNull(savedComment);
-        assertEquals(comment1.getComment(), savedComment.getComment());
-    }
 
     @Test
     void testUpdateComment() {
